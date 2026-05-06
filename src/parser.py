@@ -46,7 +46,6 @@ def parse_single_file(file_path):
                     "coords": coords
                 })
 
-        # ✅ Journeys
         for journey in root.findall('.//ns:VehicleJourney', ns):
             journeys.append({
                 "route": route_name,

@@ -106,10 +106,7 @@ if os.path.exists("outputs/maps/demand_heatmap.html"):
     st.components.v1.html(open("outputs/maps/demand_heatmap.html", encoding="utf-8").read(), height=600)
 
 
-# ========================
-# ROUTE MAP
-# ========================
-
+# create map
 st.header("Route Map")
 
 map_file = "outputs/maps/routes_map.html"
@@ -126,15 +123,12 @@ else:
     st.warning("Run main.py to generate map")
 
 
-# ========================
-# OPTIMISATION (FIXED ✅)
-# ========================
+# optimisation insights
 
 st.header("Optimisation Insights")
 
 if filtered_journeys is not None and "passengers" in filtered_journeys.columns:
 
-    # Compute stats LIVE (correct approach)
     stats = filtered_journeys.groupby("route").agg(
         avg_passengers=("passengers", "mean"),
         total_passengers=("passengers", "sum"),
@@ -157,9 +151,7 @@ else:
     st.info("Run simulation in main.py to enable optimisation")
 
 
-# ========================
-# STATISTICS
-# ========================
+# Stat insights
 
 st.header("Statistical Insights")
 
@@ -175,7 +167,6 @@ st.write(
     f"Peak hour: {int(peak['hour'])}:00 ({int(peak['journeys'])} journeys)"
 )
 
-# Correct operators ✅
 within = freq_df[
     (freq_df["journeys"] >= mean - std) &
     (freq_df["journeys"] <= mean + std)
@@ -185,9 +176,7 @@ st.write(
     f"{len(within)}/24 hours fall within 1 std dev (normal distribution behaviour)"
 )
 
-# ========================
-# FOOTER
-# ========================
+# write footer
 
 st.markdown("---")
 st.write("Transport Analytics & Optimisation Project")

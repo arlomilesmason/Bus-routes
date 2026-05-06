@@ -30,29 +30,18 @@ from src.optimisation import (
 def main():
     print(" Starting pipeline...")
 
-    # ========================
-    # ✅ SETUP OUTPUT FOLDERS
-    # ========================
     os.makedirs("outputs/data", exist_ok=True)
     os.makedirs("outputs/plots", exist_ok=True)
     os.makedirs("outputs/maps", exist_ok=True)
 
-    # ========================
-    # ✅ LOAD DATA
-    # ========================
     journeys, routes = parse_folder("Timetabledata")
 
     print(f"\nLoaded journeys: {len(journeys)}")
     print(f"Loaded route segments: {len(routes)}")
 
-    # ========================
-    # ✅ CLEAN DATA
-    # ========================
     journeys = clean_data(journeys)
 
-    # ========================
-    # ✅ ANALYSIS
-    # ========================
+ 
     freq_df = service_frequency(journeys)
     route_df = route_frequency(journeys)
 
@@ -62,24 +51,17 @@ def main():
     print(f"Mean journeys/hour: {mean:.2f}")
     print(f"Std deviation: {std:.2f}")
 
-    # ========================
-    # ✅ CLUSTERING
-    # ========================
+
     freq_df, centers = cluster_time_of_day(freq_df)
 
     print("\n Cluster centers:")
     print(centers)
 
-    # ========================
-    # ✅ SIMULATE PASSENGERS (CRITICAL!)
-    # ========================
+
     journeys = simulate_passenger_demand(journeys)
 
-    print("\n✅ Passenger simulation complete")
+    print("\n Passenger simulation complete")
 
-    # ========================
-    # ✅ OPTIMISATION
-    # ========================
     route_stats = calculate_route_stats(journeys)
     issues = identify_issues(route_stats)
     peaks = identify_peak_pressure(journeys)
@@ -94,32 +76,23 @@ def main():
     print("\nPeak Demand Hours:")
     print(peaks)
 
-    # ========================
-    # ✅ SAVE DATA (IMPORTANT FOR DASHBOARD)
-    # ========================
     journeys.to_csv("outputs/data/journeys.csv", index=False)  # ✅ REQUIRED FIX
     freq_df.to_csv("outputs/data/frequency.csv", index=False)
     route_df.to_csv("outputs/data/routes.csv", index=False)
 
-    print("✅ Data saved")
+    print("Data saved")
 
-    # ========================
-    # ✅ VISUALISATIONS
-    # ========================
     plot_frequency(freq_df, "outputs/plots/frequency.png")
     plot_normal_distribution(freq_df, "outputs/plots/normal.png")
     plot_clusters(freq_df, "outputs/plots/clusters.png")
 
-    print("✅ Plots generated")
+    print("Plots generated")
 
-    # ========================
-    # ✅ MAPS
-    # ========================
     create_route_map(routes)
     create_frequency_heatmap(routes, journeys)
     create_demand_heatmap(routes, journeys)
 
-    print("✅ Maps generated")
+    print("Maps generated")
 
     print("\n Pipeline complete!")
 

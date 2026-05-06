@@ -16,7 +16,7 @@ def calculate_route_stats(journeys_df):
 
 def identify_issues(route_stats):
     """
-    Identify overloaded and underused routes
+    Identify overused and underused routes
     """
     issues = []
 

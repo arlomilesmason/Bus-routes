@@ -2,7 +2,7 @@ import folium
 from folium.plugins import HeatMap
 import random
 
-# ✅ Warwickshire bounds
+# Warwickshire boundaries
 WARKS_BOUNDS = {
     "min_lat": 52.1,
     "max_lat": 52.6,
@@ -26,9 +26,8 @@ def generate_color():
     return "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
 
-# =====================================
-# ✅ ROUTE MAP (LINES + COLOURS)
-# =====================================
+#Add lines and colours to map
+
 def create_route_map(routes, selected_route=None,
                      output_file="outputs/maps/routes_map.html"):
 
@@ -36,7 +35,7 @@ def create_route_map(routes, selected_route=None,
         print("No route data")
         return
 
-    # ✅ Filter by geography
+    # Filter by geography
     routes = [r for r in routes if route_in_warwickshire(r["coords"])]
 
     if selected_route:
@@ -67,10 +66,10 @@ def create_route_map(routes, selected_route=None,
             color=route_colors[name],
             weight=4,
             opacity=0.8,
-            tooltip=f"Route {name}"   # ✅ hover
+            tooltip=f"Route {name}"   
         ).add_to(m)
 
-    # ✅ Legend
+    # Create Legend
     for name, color in route_colors.items():
         legend_html += f'<div><span style="color:{color};">■</span> {name}</div>'
 
@@ -94,9 +93,7 @@ def create_route_map(routes, selected_route=None,
     print(f"✅ Route map saved → {output_file}")
 
 
-# =====================================
-# 🔥 FREQUENCY HEATMAP
-# =====================================
+# Create heatmaps based on frequency and demand
 def create_frequency_heatmap(routes, journeys_df,
                              output_file="outputs/maps/heatmap.html"):
 
@@ -132,12 +129,10 @@ def create_frequency_heatmap(routes, journeys_df,
     HeatMap(heat_data, radius=8, blur=15).add_to(m)
 
     m.save(output_file)
-    print(f"✅ Frequency heatmap saved → {output_file}")
+    print(f" Frequency heatmap saved → {output_file}")
 
 
-# =====================================
-# 🧍 DEMAND HEATMAP
-# =====================================
+# Create demand heatmap based on simulated passengers
 def create_demand_heatmap(routes, journeys_df,
                           output_file="outputs/maps/demand_heatmap.html"):
 
@@ -173,4 +168,4 @@ def create_demand_heatmap(routes, journeys_df,
     HeatMap(heat_data, radius=10, blur=20).add_to(m)
 
     m.save(output_file)
-    print(f"✅ Demand heatmap saved → {output_file}")
+    print(f" Demand heatmap saved → {output_file}")

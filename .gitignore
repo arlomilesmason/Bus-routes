@@ -1,17 +1,11 @@
 Timetabledata/
-outputs/
 
 __pycache__/
 *.pyc
 
-venv/
 env/
 
-.vscode/
-.idea/
-
 .DS_Store
-Thumbs.db
 
 *.log
 .ipynb_checkpoints/
