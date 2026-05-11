@@ -90,7 +90,7 @@ def create_route_map(routes, selected_route=None,
     m.get_root().html.add_child(legend)
 
     m.save(output_file)
-    print(f"✅ Route map saved → {output_file}")
+    print(f"Route map saved → {output_file}")
 
 
 # Create heatmaps based on frequency and demand

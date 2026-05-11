@@ -76,7 +76,7 @@ def main():
     print("\nPeak Demand Hours:")
     print(peaks)
 
-    journeys.to_csv("outputs/data/journeys.csv", index=False)  # ✅ REQUIRED FIX
+    journeys.to_csv("outputs/data/journeys.csv", index=False)  
     freq_df.to_csv("outputs/data/frequency.csv", index=False)
     route_df.to_csv("outputs/data/routes.csv", index=False)
 
