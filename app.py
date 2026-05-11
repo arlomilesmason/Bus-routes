@@ -5,9 +5,9 @@ import os
 st.set_page_config(layout="wide")
 st.title("Bus Transport Analysis Dashboard")
 
-# ========================
+
 # LOAD DATA
-# ========================
+
 
 freq_path = "outputs/data/frequency.csv"
 route_path = "outputs/data/routes.csv"
@@ -27,18 +27,18 @@ else:
     journeys_df = None
 
 
-# ========================
+
 # SIDEBAR
-# ========================
+
 
 st.sidebar.header("Controls")
 
 routes = sorted(route_df["route"].unique())
 selected_route = st.sidebar.selectbox("Select Route", ["ALL"] + routes)
 
-# ========================
+
 # FILTER DATA
-# ========================
+
 
 if selected_route == "ALL":
     filtered_routes = route_df.copy()
@@ -52,9 +52,8 @@ else:
         filtered_journeys = None
 
 
-# ========================
 # SUMMARY
-# ========================
+
 
 st.header("Summary")
 
@@ -67,17 +66,14 @@ peak_hour = freq_df.loc[freq_df["journeys"].idxmax(), "hour"]
 col3.metric("Peak Hour", f"{peak_hour}:00")
 
 
-# ========================
 # FREQUENCY
-# ========================
 
 st.header("Service Frequency")
 st.line_chart(freq_df.set_index("hour")["journeys"])
 
 
-# ========================
 # ROUTE ANALYSIS
-# ========================
+
 
 st.header("Route Analysis")
 
@@ -91,19 +87,18 @@ else:
     st.write(route_hourly.sort_values("journeys", ascending=False).head())
 
 
-# ========================
+
 # HEATMAPS
-# ========================
 
 st.header("Service Heatmap")
 
 if os.path.exists("outputs/maps/heatmap.html"):
-    st.components.v1.html(open("outputs/maps/heatmap.html", encoding="utf-8").read(), height=600)
+    st.iframe(open("outputs/maps/heatmap.html", encoding="utf-8").read(), height=600)
 
 st.header("Passenger Demand Heatmap")
 
 if os.path.exists("outputs/maps/demand_heatmap.html"):
-    st.components.v1.html(open("outputs/maps/demand_heatmap.html", encoding="utf-8").read(), height=600)
+    st.iframe(open("outputs/maps/demand_heatmap.html", encoding="utf-8").read(), height=600)
 
 
 # create map
@@ -118,7 +113,7 @@ if selected_route != "ALL":
 
 if os.path.exists(map_file):
     with open(map_file, encoding="utf-8") as f:
-        st.components.v1.html(f.read(), height=600)
+        st.iframe(f.read(), height=600)
 else:
     st.warning("Run main.py to generate map")
 
